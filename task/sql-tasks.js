@@ -257,7 +257,7 @@ async function task_1_12(db) {
             from Products
             order by UnitPrice desc, ProductName
             limit 20) top20
-        order by UnitPrice
+        order by UnitPrice, ProductName
     `);
     return result[0];
 }
@@ -382,7 +382,7 @@ async function task_1_18(db) {
 	        count(OrderId) as 'Total Number of Orders'
         from Orders 
         where year(OrderDate)=1998
-        group by month(OrderDate), day(OrderDate)
+        group by OrderDate
     `);
     return result[0];
 }
