@@ -467,17 +467,17 @@ async function task_1_22(db) {
        select distinct
             Customers.CompanyName,
             Products.ProductName,
-            OrderDetails.UnitPrice as "PricePerItem"
+            OrderDetails.UnitPrice as PricePerItem
         from Customers
         join Orders on Customers.CustomerID = Orders.CustomerID        
         join OrderDetails on Orders.OrderID = OrderDetails.OrderID
         join Products on OrderDetails.ProductID = Products.ProductID
         where OrderDetails.UnitPrice = (select
-                                        max(od.UnitPrice)
+                                        max(OrderDetails.UnitPrice)
                                       from Customers as c
-                                      join Orders as o on c.CustomerID = o.CustomerID 
-                                      join OrderDetails as od on o.OrderID = od.OrderID 
-                                      where c.CompanyName = Customers.CompanyName)
+                                      join Orders on c.CustomerID = Orders.CustomerID 
+                                      join OrderDetails on Orders.OrderID = OrderDetails.OrderID 
+                                      where c.CustomerID = Customers.CustomerID)
         order by PricePerItem desc, CompanyName, ProductName
     `);
     return result[0];
