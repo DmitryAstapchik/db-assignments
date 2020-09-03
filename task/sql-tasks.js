@@ -171,7 +171,7 @@ async function task_1_7(db) {
 async function task_1_8(db) {
     let result = await db.query(`
         SELECT
-	      Categories.CategoryName,
+	      Categories.CategoryName AS CategoryName,
           COUNT(ProductId) AS TotalNumberOfProducts
         FROM Categories
         INNER JOIN Products ON Categories.CategoryID = Products.CategoryID
@@ -399,7 +399,7 @@ async function task_1_19(db) {
     let result = await db.query(`
         SELECT
 	      CompanyName,
-          Customers.CustomerID,
+          Customers.CustomerID AS CustomerID,
           SUM(UnitPrice * Quantity) AS 'TotalOrdersAmount, $'
         FROM Customers
         INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
@@ -422,7 +422,7 @@ async function task_1_19(db) {
 async function task_1_20(db) {
     let result = await db.query(`
         SELECT
-	      Employees.EmployeeID,
+	      Employees.EmployeeID AS EmployeeID,
           CONCAT(FirstName, ' ', LastName) AS 'Employee Full Name',
           SUM(UnitPrice * Quantity) AS 'Amount, $'
         FROM Employees
@@ -444,7 +444,7 @@ async function task_1_20(db) {
 async function task_1_21(db) {
     let result = await db.query(`
         SELECT
-	      Orders.OrderID,
+	      Orders.OrderID AS OrderID,
           SUM(UnitPrice * Quantity) AS 'Maximum Purchase Amount, $'
         FROM Orders
         INNER JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
@@ -465,11 +465,11 @@ async function task_1_21(db) {
 async function task_1_22(db) {
     let result = await db.query(`
         SELECT DISTINCT
-          Customers.CompanyName,
-          Products.ProductName,
+          Customers.CompanyName AS CompanyName,
+          Products.ProductName AS ProductName,
           OrderDetails.UnitPrice AS PricePerItem
         FROM Customers
-        INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID     
+        INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID
         INNER JOIN OrderDetails ON Orders.OrderID = OrderDetails.OrderID
         INNER JOIN Products ON OrderDetails.ProductID = Products.ProductID
         WHERE OrderDetails.UnitPrice = (SELECT
